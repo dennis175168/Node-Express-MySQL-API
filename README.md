@@ -9,6 +9,8 @@
 - [Git]
 - sudo apt-get install git
 - [NodeJS](https://nodejs.org/en/)
+- sudo apt-get install NodeJS
+- sudo apt-get install npm
 
 ## To try this sample
 
