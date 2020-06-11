@@ -2,7 +2,12 @@
 
 ## Prerequisites
 
-- [Mysql 8.0]
+- Ubuntu[Mysql 8.0]
+- sudo apt-get install mysql-server
+- sudo apt install mysql-client
+- sudo apt install libmysqlclient-dev
+- [Git]
+- sudo apt-get install git
 - [NodeJS](https://nodejs.org/en/)
 
 ## To try this sample
