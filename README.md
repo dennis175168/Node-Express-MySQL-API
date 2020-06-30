@@ -14,6 +14,7 @@ sudo apt-get install git
 ```
 - [NodeJS](https://nodejs.org/en/)
 ```
+sudo curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install NodeJS
 sudo apt-get install npm
 ```
