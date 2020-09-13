@@ -18,24 +18,61 @@ var connection = mysql.createConnection({
 
 function login (table, form, cb) {
 
-  var user_name = form[0].user_name;
+  var user_name = form[0].username;
   var en_pwd = encryption( form[0].pwd ) ;
 
-  connection.query("SELECT * FROM "+ table +" WHERE username = "+ user_name +" AND pwd =  " + en_pwd  , function (error, results, fields) {
-      if (error) throw error;
-      cb(undefined,results)
+  connection.query("SELECT * FROM "+ table +" WHERE Company_Name = '"+ user_name +"' AND Password =  '" + en_pwd +"'" , function (error, results, fields) {
+      if (error) {
+        // throw error;
+        cb(undefined, { error: error });
+      } else {
+        cb(undefined, results);
+      }
     });
   }
 
 function create_member(table, form, cb) {
 
-  var user_name = form[0].user_name;
+  var user_name = form[0].username;
   var en_pwd = encryption( form[0].pwd ) ;
   
-  connection.query("INSERT INTO "+table+" ( Mem_Name , Mem_Pwd ) VALUES ("+ user_name +","+ en_pwd +")", function (error, results, fields) {
+  connection.query("INSERT INTO " + table +" ( Company_Name , Password ) VALUES ('"+ user_name +"','"+ en_pwd +"')", function (error, results, fields) {
     if (error) { 
-      throw error; 
+      // throw error;
+      cb(undefined, { error: error });
     }else{
+      var res = "success"
+      cb(undefined, res)
+    }
+  });
+}
+
+function login_admin(table, form, cb) {
+
+  var user_name = form[0].username;
+  var en_pwd = encryption(form[0].pwd);
+
+  connection.query("SELECT * FROM " + table + " WHERE Admin_Name = '" + user_name + "' AND Password =  '" + en_pwd + "'", function (error, results, fields) {
+    if (error) {
+      // throw error;
+      cb(undefined, { error: error });
+    } else {
+      cb(undefined, results);
+    }
+  });
+}
+
+function create_admin(table, form, cb) {
+
+  var user_name = form[0].username;
+  var en_pwd = encryption(form[0].pwd);
+  var user_mail = form[0].mail;
+
+  connection.query("INSERT INTO " + table + " ( Admin_Name ,Admin_Email , Password ,Global_Admin) VALUES ('" + user_name + "','" + user_mail +"','" + en_pwd + "','"+ "Yes" +"')", function (error, results, fields) {
+    if (error) {
+      // throw error;
+      cb(undefined, { error: error });
+    } else {
       var res = "success"
       cb(undefined, res)
     }
@@ -53,5 +90,7 @@ function encryption  ( pwd )  {
 
 module.exports = {
     login,
-    create_member
+    create_member,
+    create_admin,
+    login_admin
   }

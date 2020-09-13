@@ -15,9 +15,14 @@ var connection = mysql.createConnection({
 function select_data(table,cb){
   // connection.connect();
   connection.query('SELECT * FROM ' + table, function (error, results, fields) {
-    if (error) throw error;
+    if (error) { 
+      // throw error;
+      cb(undefined, {error:error});
+    }else{
+      cb(undefined, results)
+    }
     // console.log(results);
-    cb(undefined,results)
+    
   });
   // connection.end();
 }
@@ -32,7 +37,8 @@ function insert_data(table, form, cb) {
   // connection.connect();
   connection.query("INSERT INTO "+table+" ("+ str_col +") VALUES ("+ str_val +")", function (error, results, fields) {
     if (error) { 
-      throw error; 
+      // throw error; 
+      cb(undefined, { error: error });
     }else{
       var res = "success"
       cb(undefined, res)
@@ -48,7 +54,8 @@ function update_data(table, col_id , id, form , cb) {
   // connection.connect();
   connection.query("UPDATE " + table +" SET "+ str_val +"  WHERE "+ col_id +" = " + id, function (error, results, fields) {
     if (error) { 
-      throw error; 
+      // throw error; 
+      cb(undefined, { error: error });
     }else{
       var res = "success"
       cb(undefined, res)
@@ -61,7 +68,8 @@ function delete_data(table, col , id ,cb) {
   // connection.connect();
   connection.query("DELETE FROM " + table + " WHERE "+ col +"='" + id + "'", function (error, results, fields) {
     if (error) { 
-      throw error; 
+      // throw error; 
+      cb(undefined, { error: error });
     }else{
       var res = "success"
       cb(undefined, res)
@@ -70,8 +78,7 @@ function delete_data(table, col , id ,cb) {
   // connection.end();
 }
 
-
-
+//處理 form
 function sqlstr_insert( form ){
   var str_col = "";
   var str_val = "";
@@ -100,9 +107,10 @@ function sqlstr_update(form){
 
 }
 
+
 module.exports = {
   select_data,
   insert_data,
   update_data,
-  delete_data
+  delete_data,
 }
